@@ -3,9 +3,9 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>MeduzaGrief - Ссылки</title>
+<title>MeduzaGrief — Ссылки</title>
 <style>
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap');
 
 * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Inter', sans-serif; }
 
@@ -20,238 +20,370 @@ body {
     display: flex;
     flex-direction: column;
     align-items: center;
-    background-image: radial-gradient(circle at 50% 0%, #1a1a2e 0%, #050508 70%);
+    background: #050508;
     overflow-x: hidden;
+    position: relative;
 }
 
-/* ===== ФОН С МЕДУЗАМИ ===== */
-#jellyfish-bg {
+/* ===== СТРОГИЙ ФОН ===== */
+#bg-layer {
     position: fixed;
     inset: 0;
-    width: 100vw;
-    height: 100vh;
+    z-index: 0;
+    pointer-events: none;
+    background:
+        radial-gradient(ellipse 80% 50% at 50% -20%, rgba(0, 100, 200, 0.15) 0%, transparent 60%),
+        radial-gradient(ellipse 60% 40% at 80% 100%, rgba(120, 0, 200, 0.08) 0%, transparent 60%),
+        #050508;
+}
+
+#bg-layer::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background-image:
+        linear-gradient(rgba(255,255,255,0.015) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(255,255,255,0.015) 1px, transparent 1px);
+    background-size: 60px 60px;
+    mask-image: radial-gradient(ellipse 70% 60% at 50% 30%, #000 0%, transparent 80%);
+    -webkit-mask-image: radial-gradient(ellipse 70% 60% at 50% 30%, #000 0%, transparent 80%);
+}
+
+/* ===== ПЛАВАЮЩИЕ ЧАСТИЦЫ ===== */
+.particle {
+    position: fixed;
+    width: 2px;
+    height: 2px;
+    background: rgba(0, 180, 255, 0.4);
+    border-radius: 50%;
     pointer-events: none;
     z-index: 0;
-    overflow: hidden;
+    animation: drift linear infinite;
 }
 
-.jellyfish {
-    position: absolute;
-    top: 100%;
-    font-size: 60px;
-    opacity: 0;
-    animation: floatUp linear infinite;
+@keyframes drift {
+    0%   { transform: translate(0, 0) scale(1); opacity: 0; }
+    10%  { opacity: 0.8; }
+    90%  { opacity: 0.8; }
+    100% { transform: translate(var(--dx), var(--dy)) scale(0.3); opacity: 0; }
 }
 
-@keyframes floatUp {
-    0%   { transform: translateY(0) rotate(0deg); opacity: 0; }
-    10%  { opacity: 0.12; }
-    90%  { opacity: 0.12; }
-    100% { transform: translateY(-115vh) rotate(360deg); opacity: 0; }
-}
-
-.jellyfish:nth-child(1) { left: 5%;  font-size: 50px; animation-duration: 25s; animation-delay: 0s; }
-.jellyfish:nth-child(2) { left: 20%; font-size: 70px; animation-duration: 32s; animation-delay: -5s; }
-.jellyfish:nth-child(3) { left: 38%; font-size: 45px; animation-duration: 28s; animation-delay: -12s; }
-.jellyfish:nth-child(4) { left: 55%; font-size: 80px; animation-duration: 38s; animation-delay: -3s; }
-.jellyfish:nth-child(5) { left: 72%; font-size: 55px; animation-duration: 30s; animation-delay: -18s; }
-.jellyfish:nth-child(6) { left: 88%; font-size: 65px; animation-duration: 35s; animation-delay: -8s; }
-.jellyfish:nth-child(7) { left: 45%; font-size: 40px; animation-duration: 22s; animation-delay: -14s; }
-.jellyfish:nth-child(8) { left: 10%; font-size: 75px; animation-duration: 40s; animation-delay: -22s; }
-
-/* ===== ХЕДЕР ===== */
+/* ===== ХЕДЕР — СТРОГИЙ ===== */
 header {
     position: relative;
-    z-index: 1;
+    z-index: 10;
     width: 100%;
-    max-width: 1300px;
+    max-width: 1240px;
     display: flex;
     justify-content: space-between;
     align-items: center;
-    padding: 30px 20px;
+    padding: 36px 32px 28px;
+    border-bottom: 1px solid rgba(255,255,255,0.06);
 }
 
 .logo {
-    font-weight: 800;
-    letter-spacing: 2px;
+    font-weight: 900;
+    letter-spacing: 3px;
     text-transform: uppercase;
-    background: linear-gradient(90deg, #fff, #888);
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    background-clip: text;
+    font-size: 1.15rem;
     display: flex;
     align-items: center;
+    gap: 12px;
+    color: #fff;
+}
+
+.logo .icon-box {
+    width: 38px;
+    height: 38px;
+    border: 1px solid rgba(255,255,255,0.15);
+    border-radius: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.2rem;
+    background: rgba(255,255,255,0.03);
+    transition: border-color 0.3s, background 0.3s, transform 0.4s;
+}
+
+.logo:hover .icon-box {
+    border-color: rgba(0, 180, 255, 0.6);
+    background: rgba(0, 180, 255, 0.08);
+    transform: rotate(-10deg) scale(1.05);
+}
+
+nav {
+    display: flex;
     gap: 8px;
 }
 
-.logo .emoji {
-    -webkit-text-fill-color: initial;
-    background: none;
-    font-size: 1.3rem;
-}
-
 nav a {
-    color: #888;
+    color: #555;
     text-decoration: none;
-    margin-left: 25px;
     cursor: pointer;
-    transition: color 0.3s;
+    padding: 10px 22px;
+    font-size: 0.82rem;
+    font-weight: 600;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    border: 1px solid transparent;
+    border-radius: 8px;
+    transition: all 0.3s ease;
+    position: relative;
 }
 
-nav a:hover, nav a.active { color: #fff; }
+nav a:hover { color: #aaa; border-color: rgba(255,255,255,0.08); }
+
+nav a.active {
+    color: #fff;
+    border-color: rgba(0, 180, 255, 0.35);
+    background: rgba(0, 180, 255, 0.06);
+    box-shadow: 0 0 20px rgba(0, 180, 255, 0.08);
+}
 
 /* ===== КОНТЕНТ ===== */
 .content {
     position: relative;
     z-index: 1;
     width: 100%;
-    max-width: 1300px;
-    padding: 20px;
+    max-width: 1240px;
+    padding: 48px 32px 80px;
+    flex: 1;
 }
 
 .section { width: 100%; }
 .section.hidden { display: none; }
 
-.title {
-    font-size: 2.8rem;
-    font-weight: 800;
-    text-align: center;
+/* ===== ЗАГОЛОВОК СЕКЦИИ ===== */
+.section-header {
+    display: flex;
+    align-items: center;
+    gap: 20px;
     margin-bottom: 40px;
 }
 
-/* ===== СЕТКА ССЫЛОК: 3 В РЯД, КРУПНЫЕ ===== */
+.section-header h2 {
+    font-size: 2rem;
+    font-weight: 800;
+    letter-spacing: -0.5px;
+    white-space: nowrap;
+}
+
+.section-header .line {
+    flex: 1;
+    height: 1px;
+    background: linear-gradient(90deg, rgba(255,255,255,0.15), transparent);
+}
+
+.section-header .badge {
+    font-size: 0.7rem;
+    font-weight: 700;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: #00b4ff;
+    border: 1px solid rgba(0, 180, 255, 0.3);
+    padding: 6px 14px;
+    border-radius: 100px;
+    background: rgba(0, 180, 255, 0.05);
+}
+
+/* ===== СЕТКА ССЫЛОК — НОВЫЙ ФОРМАТ ===== */
 .grid {
     display: grid;
     grid-template-columns: repeat(3, 1fr);
-    gap: 25px;
+    gap: 18px;
 }
 
 .card {
     position: relative;
-    background: #101014;
-    border-radius: 22px;
-    padding: 45px 30px;
+    background: rgba(255,255,255,0.02);
+    border-radius: 16px;
+    padding: 32px 24px;
     text-decoration: none;
     color: #fff;
-    text-align: center;
-    border: 1px solid #1f1f26;
+    text-align: left;
+    border: 1px solid rgba(255,255,255,0.06);
     display: flex;
-    flex-direction: column;
+    flex-direction: row;
     align-items: center;
+    gap: 18px;
     opacity: 0;
-    transform: translateY(24px);
-    transition: opacity 0.6s ease, transform 0.5s ease,
+    transform: translateY(20px) scale(0.97);
+    transition: opacity 0.6s ease, transform 0.5s cubic-bezier(0.16, 1, 0.3, 1),
                 border-color 0.3s, box-shadow 0.3s, background 0.3s;
+    overflow: hidden;
+}
+
+.card::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(135deg, rgba(0,180,255,0.06) 0%, transparent 50%);
+    opacity: 0;
+    transition: opacity 0.4s;
 }
 
 .card.show {
     opacity: 1;
-    transform: translateY(0);
+    transform: translateY(0) scale(1);
 }
 
 .card:hover {
-    border-color: #444;
-    background: #15151a;
-    box-shadow: 0 15px 35px rgba(0,0,0,0.6), 0 0 30px rgba(0,150,255,0.12);
+    border-color: rgba(0, 180, 255, 0.3);
+    background: rgba(255,255,255,0.035);
+    box-shadow: 0 8px 40px rgba(0,0,0,0.5), 0 0 30px rgba(0, 180, 255, 0.06);
+}
+
+.card:hover::before { opacity: 1; }
+
+.card:active {
+    transform: scale(0.98);
 }
 
 .card-inner {
     display: flex;
-    flex-direction: column;
     align-items: center;
+    gap: 18px;
     width: 100%;
-    transition: transform 0.4s ease;
-}
-
-.card:hover .card-inner {
-    animation: floatCard 2.2s ease-in-out infinite;
-}
-
-@keyframes floatCard {
-    0%   { transform: translateY(0); }
-    50%  { transform: translateY(-6px); }
-    100% { transform: translateY(0); }
+    position: relative;
+    z-index: 1;
 }
 
 .avatar {
-    width: 110px;
-    height: 110px;
-    border-radius: 50%;
+    width: 62px;
+    height: 62px;
+    border-radius: 14px;
     object-fit: cover;
-    margin-bottom: 20px;
-    border: 3px solid #333;
+    border: 1px solid rgba(255,255,255,0.1);
     background: #1a1a1f;
-    transition: border-color 0.3s, box-shadow 0.3s;
+    flex-shrink: 0;
+    transition: border-color 0.3s, transform 0.4s, box-shadow 0.3s;
 }
 
 .card:hover .avatar {
-    border-color: #fff;
-    box-shadow: 0 0 22px rgba(255,255,255,0.45);
+    border-color: rgba(0, 180, 255, 0.5);
+    transform: scale(1.08) rotate(-3deg);
+    box-shadow: 0 0 20px rgba(0, 180, 255, 0.15);
 }
 
 .avatar-placeholder {
-    width: 110px;
-    height: 110px;
-    border-radius: 50%;
-    margin-bottom: 20px;
-    border: 3px solid #333;
-    background: #00BFFF;
+    width: 62px;
+    height: 62px;
+    border-radius: 14px;
+    border: 1px solid rgba(255,255,255,0.1);
+    background: linear-gradient(135deg, #00BFFF, #0088cc);
     display: flex;
     align-items: center;
     justify-content: center;
-    font-size: 2.8rem;
+    font-size: 1.6rem;
     font-weight: 800;
     color: #fff;
-    transition: border-color 0.3s, box-shadow 0.3s;
+    flex-shrink: 0;
+    transition: border-color 0.3s, transform 0.4s, box-shadow 0.3s;
 }
 
 .card:hover .avatar-placeholder {
-    border-color: #fff;
-    box-shadow: 0 0 22px rgba(0,255,255,0.5);
+    border-color: rgba(0, 180, 255, 0.5);
+    transform: scale(1.08) rotate(-3deg);
+    box-shadow: 0 0 20px rgba(0, 180, 255, 0.2);
 }
 
-.logo-svg {
-    width: 50px;
-    height: 50px;
-    margin-top: 15px;
-    transition: transform 0.3s;
+.card-text {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+    min-width: 0;
+    flex: 1;
 }
 
-.card:hover .logo-svg {
-    transform: scale(1.15) rotate(-8deg);
+.card-text h3 {
+    font-size: 1rem;
+    font-weight: 700;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
 }
 
-.card h3 {
-    font-size: 1.4rem;
-    margin-bottom: 6px;
+.card-text p {
+    font-size: 0.78rem;
+    color: #666;
+    font-weight: 500;
+    letter-spacing: 0.5px;
+    text-transform: uppercase;
 }
 
-.card p {
-    font-size: 0.95rem;
-    color: #888;
+.card-arrow {
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    border: 1px solid rgba(255,255,255,0.08);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    transition: all 0.3s ease;
+    color: #444;
+    font-size: 0.9rem;
 }
 
-/* ===== КНОПКА СВЯЗИ ===== */
+.card:hover .card-arrow {
+    border-color: rgba(0, 180, 255, 0.5);
+    color: #00b4ff;
+    background: rgba(0, 180, 255, 0.08);
+    transform: translateX(4px);
+}
+
+.card-icon {
+    width: 22px;
+    height: 22px;
+    flex-shrink: 0;
+    opacity: 0.7;
+    transition: opacity 0.3s, transform 0.3s;
+}
+
+.card:hover .card-icon {
+    opacity: 1;
+    transform: scale(1.1);
+}
+
+/* ===== КНОПКА СВЯЗИ — СТРОГАЯ ===== */
 .minecraft-btn {
-    display: block;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 12px;
     width: 100%;
-    margin-top: 35px;
-    background: #4a4a4a;
+    margin-top: 40px;
+    background: rgba(255,255,255,0.03);
     color: #fff;
     text-align: center;
     padding: 22px;
-    border-radius: 8px;
-    font-size: 1.25rem;
-    font-weight: 600;
+    border-radius: 14px;
+    font-size: 0.95rem;
+    font-weight: 700;
+    letter-spacing: 2px;
+    text-transform: uppercase;
     cursor: pointer;
-    border: none;
-    border-top: 4px solid #6a6a6a;
-    border-left: 4px solid #6a6a6a;
-    border-bottom: 4px solid #2a2a2a;
-    border-right: 4px solid #2a2a2a;
-    transition: background 0.15s, transform 0.15s, opacity 0.5s ease;
+    border: 1px solid rgba(255,255,255,0.08);
+    transition: all 0.3s ease;
     opacity: 0;
-    transform: translateY(24px);
+    transform: translateY(20px);
+    position: relative;
+    overflow: hidden;
+}
+
+.minecraft-btn::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(0, 180, 255, 0.06), transparent);
+    transition: left 0.6s ease;
+}
+
+.minecraft-btn:hover::before {
+    left: 100%;
 }
 
 .minecraft-btn.show {
@@ -259,31 +391,37 @@ nav a:hover, nav a.active { color: #fff; }
     transform: translateY(0);
 }
 
-.minecraft-btn:hover { background: #5a5a5a; }
+.minecraft-btn:hover {
+    border-color: rgba(0, 180, 255, 0.4);
+    background: rgba(0, 180, 255, 0.06);
+    box-shadow: 0 0 30px rgba(0, 180, 255, 0.08);
+}
 
 .minecraft-btn:active {
-    border-top: 4px solid #2a2a2a;
-    border-left: 4px solid #2a2a2a;
-    border-bottom: 4px solid #6a6a6a;
-    border-right: 4px solid #6a6a6a;
-    transform: translateY(3px);
+    transform: scale(0.99);
 }
 
 /* ===== БЛОК ВИДЕО ===== */
 .video-row {
     display: grid;
     grid-template-columns: 1fr 1fr;
-    gap: 25px;
-    margin-top: 35px;
+    gap: 18px;
+    margin-top: 40px;
 }
 
 .video-widget {
-    background: #101014;
-    border-radius: 20px;
-    border: 1px solid #1f1f26;
+    background: rgba(255,255,255,0.02);
+    border-radius: 16px;
+    border: 1px solid rgba(255,255,255,0.06);
     overflow: hidden;
     display: flex;
     flex-direction: column;
+    transition: border-color 0.3s, box-shadow 0.3s;
+}
+
+.video-widget:hover {
+    border-color: rgba(255,255,255,0.1);
+    box-shadow: 0 10px 40px rgba(0,0,0,0.4);
 }
 
 .video-widget-header {
@@ -291,18 +429,18 @@ nav a:hover, nav a.active { color: #fff; }
     align-items: center;
     gap: 12px;
     padding: 18px 22px;
-    border-bottom: 1px solid #1f1f26;
+    border-bottom: 1px solid rgba(255,255,255,0.06);
     font-weight: 700;
-    font-size: 1rem;
+    font-size: 0.78rem;
     text-transform: uppercase;
-    letter-spacing: 1.2px;
-    color: #ccc;
+    letter-spacing: 2px;
+    color: #888;
 }
 
 .video-widget-header svg {
     flex-shrink: 0;
-    width: 26px;
-    height: 26px;
+    width: 22px;
+    height: 22px;
 }
 
 .video-frame {
@@ -322,12 +460,12 @@ nav a:hover, nav a.active { color: #fff; }
 
 .video-meta {
     padding: 18px 22px;
-    background: #0c0c10;
+    background: rgba(0,0,0,0.25);
     min-height: 80px;
 }
 
 .video-meta .video-title {
-    font-size: 1rem;
+    font-size: 0.95rem;
     font-weight: 600;
     margin-bottom: 6px;
     line-height: 1.4;
@@ -338,11 +476,11 @@ nav a:hover, nav a.active { color: #fff; }
 }
 
 .video-meta .video-date {
-    font-size: 0.85rem;
-    color: #666;
+    font-size: 0.8rem;
+    color: #555;
+    letter-spacing: 0.5px;
 }
 
-/* Twitch оффлайн */
 .twitch-offline {
     position: absolute;
     inset: 0;
@@ -350,15 +488,15 @@ nav a:hover, nav a.active { color: #fff; }
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    background: #0e0e10;
-    color: #888;
-    font-size: 1rem;
-    gap: 12px;
+    background: #0a0a0e;
+    color: #666;
+    font-size: 0.95rem;
+    gap: 14px;
 }
 
 .twitch-offline .offline-icon {
     font-size: 2.5rem;
-    opacity: 0.3;
+    opacity: 0.2;
 }
 
 .stream-status {
@@ -366,15 +504,16 @@ nav a:hover, nav a.active { color: #fff; }
     align-items: center;
     gap: 10px;
     padding: 18px 22px;
-    font-size: 0.95rem;
+    font-size: 0.9rem;
     font-weight: 600;
-    background: #0c0c10;
+    background: rgba(0,0,0,0.25);
     min-height: 80px;
+    letter-spacing: 0.5px;
 }
 
 .status-dot {
-    width: 12px;
-    height: 12px;
+    width: 10px;
+    height: 10px;
     border-radius: 50%;
     flex-shrink: 0;
 }
@@ -389,44 +528,152 @@ nav a:hover, nav a.active { color: #fff; }
 }
 
 @keyframes pulseOnline {
-    0%, 100% { opacity: 1; box-shadow: 0 0 0 0 rgba(0,255,136,0.6); }
-    50% { opacity: 0.6; box-shadow: 0 0 0 10px rgba(0,255,136,0); }
+    0%, 100% { opacity: 1; box-shadow: 0 0 0 0 rgba(0,255,136,0.5); }
+    50% { opacity: 0.5; box-shadow: 0 0 0 8px rgba(0,255,136,0); }
 }
 
-/* ===== ИНФО ===== */
-.info { text-align: center; max-width: 800px; margin: 0 auto; }
-.info img { width: 150px; height: 150px; border-radius: 50%; border: 3px solid #333; margin-bottom: 20px; object-fit: cover; }
-.info .date { color: #555; font-size: 0.85rem; margin-bottom: 20px; }
-.info-text { background: #101014; padding: 40px; border-radius: 20px; color: #ccc; line-height: 1.8; border: 1px solid #1f1f26; text-align: left; }
-.info-text strong { color: #fff; font-size: 1.2rem; display: block; margin-bottom: 15px; }
-.info-text p { margin-bottom: 15px; }
+/* ===== ИНФО — СТРОГИЙ СТИЛЬ ===== */
+.info {
+    max-width: 820px;
+    margin: 0 auto;
+}
+
+.info-card {
+    background: rgba(255,255,255,0.02);
+    border: 1px solid rgba(255,255,255,0.06);
+    border-radius: 20px;
+    padding: 48px;
+    position: relative;
+    overflow: hidden;
+}
+
+.info-card::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 2px;
+    background: linear-gradient(90deg, #00b4ff, #8844ff, transparent);
+    opacity: 0.5;
+}
+
+.info-top {
+    display: flex;
+    align-items: center;
+    gap: 28px;
+    margin-bottom: 32px;
+}
+
+.info-avatar-wrap {
+    position: relative;
+    flex-shrink: 0;
+}
+
+.info-avatar-wrap img {
+    width: 100px;
+    height: 100px;
+    border-radius: 20px;
+    object-fit: cover;
+    border: 1px solid rgba(255,255,255,0.1);
+}
+
+.info-avatar-wrap::after {
+    content: '';
+    position: absolute;
+    inset: -4px;
+    border-radius: 24px;
+    border: 1px solid rgba(0, 180, 255, 0.15);
+    pointer-events: none;
+}
+
+.info-top-text h3 {
+    font-size: 1.5rem;
+    font-weight: 800;
+    margin-bottom: 6px;
+    letter-spacing: -0.5px;
+}
+
+.info-top-text .date {
+    color: #555;
+    font-size: 0.78rem;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    font-weight: 600;
+}
+
+.info-body {
+    color: #aaa;
+    line-height: 1.9;
+    font-size: 0.95rem;
+}
+
+.info-body p {
+    margin-bottom: 16px;
+}
+
+.info-body p:last-child {
+    margin-bottom: 0;
+}
+
+.info-body strong {
+    color: #fff;
+    font-weight: 700;
+}
 
 /* ===== МОДАЛКА ===== */
 .modal {
     display: none;
     position: fixed;
     inset: 0;
-    background: rgba(0,0,0,0.8);
+    background: rgba(0,0,0,0.85);
+    backdrop-filter: blur(8px);
     justify-content: center;
     align-items: center;
     z-index: 1000;
     padding: 20px;
 }
 
-.modal.active { display: flex; }
-
-.modal-content {
-    background: #1a1a1f;
-    padding: 30px;
-    border-radius: 20px;
-    border: 1px solid #333;
-    text-align: center;
-    max-width: 400px;
-    width: 100%;
+.modal.active {
+    display: flex;
+    animation: modalFadeIn 0.25s ease;
 }
 
-.modal-content h3 { margin-bottom: 20px; font-size: 1.3rem; }
-.mail-options { display: flex; flex-direction: column; gap: 15px; }
+@keyframes modalFadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+}
+
+.modal-content {
+    background: #0c0c10;
+    padding: 36px;
+    border-radius: 20px;
+    border: 1px solid rgba(255,255,255,0.08);
+    text-align: center;
+    max-width: 420px;
+    width: 100%;
+    animation: modalSlideUp 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+@keyframes modalSlideUp {
+    from { transform: translateY(20px) scale(0.97); opacity: 0; }
+    to { transform: translateY(0) scale(1); opacity: 1; }
+}
+
+.modal-content h3 {
+    margin-bottom: 24px;
+    font-size: 1.1rem;
+    font-weight: 700;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    color: #ccc;
+}
+
+.mail-options {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
 
 .mail-btn {
     display: flex;
@@ -437,26 +684,47 @@ nav a:hover, nav a.active { color: #fff; }
     text-decoration: none;
     color: #fff;
     font-weight: 600;
-    border: 1px solid #2a2a30;
-    background: #101014;
-    transition: background 0.3s, border-color 0.3s;
+    font-size: 0.9rem;
+    border: 1px solid rgba(255,255,255,0.06);
+    background: rgba(255,255,255,0.02);
+    transition: all 0.3s ease;
 }
 
-.mail-btn:hover { background: #25252b; border-color: #555; }
-.mail-btn img { width: 36px; height: 36px; border-radius: 50%; object-fit: cover; flex-shrink: 0; background: #fff; }
+.mail-btn:hover {
+    background: rgba(0, 180, 255, 0.06);
+    border-color: rgba(0, 180, 255, 0.3);
+    transform: translateX(4px);
+}
+
+.mail-btn img {
+    width: 34px;
+    height: 34px;
+    border-radius: 10px;
+    object-fit: cover;
+    flex-shrink: 0;
+    background: #fff;
+}
 
 .close-btn {
-    margin-top: 20px;
-    background: #333;
-    color: #fff;
-    border: none;
-    padding: 10px 20px;
-    border-radius: 8px;
+    margin-top: 24px;
+    background: rgba(255,255,255,0.04);
+    color: #888;
+    border: 1px solid rgba(255,255,255,0.08);
+    padding: 12px 28px;
+    border-radius: 10px;
     cursor: pointer;
-    transition: background 0.2s;
+    font-weight: 600;
+    font-size: 0.85rem;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    transition: all 0.25s;
 }
 
-.close-btn:hover { background: #555; }
+.close-btn:hover {
+    background: rgba(255,255,255,0.08);
+    color: #fff;
+    border-color: rgba(255,255,255,0.15);
+}
 
 /* ===== ТОСТ ===== */
 #toast {
@@ -464,20 +732,21 @@ nav a:hover, nav a.active { color: #fff; }
     bottom: 30px;
     left: 50%;
     transform: translateX(-50%) translateY(150%);
-    background: #1a1a1f;
-    color: #fff;
-    padding: 15px 25px;
+    background: #0c0c10;
+    color: #ccc;
+    padding: 16px 28px;
     border-radius: 12px;
-    border: 1px solid #333;
-    font-size: 0.95rem;
-    font-weight: 500;
+    border: 1px solid rgba(255,255,255,0.08);
+    font-size: 0.85rem;
+    font-weight: 600;
     display: flex;
     align-items: center;
     gap: 10px;
     z-index: 2000;
-    transition: transform 0.4s ease, opacity 0.3s;
+    transition: transform 0.45s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.3s;
     opacity: 0;
     pointer-events: none;
+    letter-spacing: 0.5px;
 }
 
 #toast.show {
@@ -485,49 +754,55 @@ nav a:hover, nav a.active { color: #fff; }
     opacity: 1;
 }
 
-#toast::before { content: '🔗'; font-size: 1.2rem; }
+#toast::before {
+    content: '↗';
+    font-size: 1rem;
+    color: #00b4ff;
+}
 
 /* ===== АДАПТИВ ===== */
 @media (max-width: 1000px) {
     .grid { grid-template-columns: repeat(2, 1fr); }
+    .info-card { padding: 36px; }
 }
 
 @media (max-width: 800px) {
     .video-row { grid-template-columns: 1fr; }
-    .title { font-size: 2rem; margin-bottom: 30px; }
-    header { padding: 20px 15px; }
-    nav a { margin-left: 15px; }
-    .content { padding: 15px; }
-    .card { padding: 35px 20px; }
-    .avatar, .avatar-placeholder { width: 90px; height: 90px; }
-    .info-text { padding: 25px; }
+    header { padding: 24px 20px; flex-direction: column; gap: 18px; }
+    nav a { padding: 8px 16px; font-size: 0.75rem; }
+    .content { padding: 32px 20px 60px; }
+    .section-header h2 { font-size: 1.5rem; }
+    .info-top { flex-direction: column; text-align: center; }
+    .info-card { padding: 28px 22px; }
+    .info-body { font-size: 0.9rem; }
+    .card { padding: 24px 18px; }
+    .avatar, .avatar-placeholder { width: 52px; height: 52px; }
+    .card-text h3 { font-size: 0.9rem; }
 }
 
 @media (max-width: 600px) {
     .grid { grid-template-columns: 1fr; }
+    .section-header { flex-wrap: wrap; gap: 12px; }
+    .section-header .badge { font-size: 0.6rem; padding: 4px 10px; }
 }
 
 @media (prefers-reduced-motion: reduce) {
-    .jellyfish { animation: none; opacity: 0.08; top: 50%; }
+    .particle { animation: none; opacity: 0; }
     .card, .minecraft-btn { opacity: 1; transform: none; transition: none; }
+    .card:hover .avatar { transform: none; }
+    .card:hover .avatar-placeholder { transform: none; }
 }
 </style>
 </head>
 <body>
 
-<div id="jellyfish-bg">
-    <div class="jellyfish">🪼</div>
-    <div class="jellyfish">🪼</div>
-    <div class="jellyfish">🪼</div>
-    <div class="jellyfish">🪼</div>
-    <div class="jellyfish">🪼</div>
-    <div class="jellyfish">🪼</div>
-    <div class="jellyfish">🪼</div>
-    <div class="jellyfish">🪼</div>
-</div>
+<div id="bg-layer"></div>
 
 <header>
-    <div class="logo"><span class="emoji">🪼</span> MeduzaGrief</div>
+    <div class="logo">
+        <span class="icon-box">🪼</span>
+        MeduzaGrief
+    </div>
     <nav>
         <a onclick="show('links')" id="n-links" class="active">Ссылки</a>
         <a onclick="show('info')" id="n-info">Информация</a>
@@ -538,60 +813,83 @@ nav a:hover, nav a.active { color: #fff; }
 
     <!-- ===== СЕКЦИЯ ССЫЛОК ===== -->
     <div class="section" id="links">
-        <h2 class="title">Ссылки</h2>
+        <div class="section-header">
+            <h2>Ссылки</h2>
+            <div class="line"></div>
+            <div class="badge">6 каналов</div>
+        </div>
 
         <div class="grid">
+
             <a href="https://www.youtube.com/@immeduza" target="_blank" class="card">
                 <div class="card-inner">
                     <img src="https://unavatar.io/youtube/@immeduza" class="avatar" alt="Avatar" onerror="this.style.background='#222'">
-                    <h3>MeduzaGrief</h3>
-                    <p>YouTube</p>
-                    <svg class="logo-svg" viewBox="0 0 24 24"><path d="M23.5 6.2a3 3 0 0 0-2.1-2.1C19.5 3.5 12 3.5 12 3.5s-7.5 0-9.4.6A3 3 0 0 0 .5 6.2 31 31 0 0 0 0 12a31 31 0 0 0 .5 5.8 3 3 0 0 0 2.1 2.1c1.9.6 9.4.6 9.4.6s7.5 0 9.4-.6a3 3 0 0 0 2.1-2.1A31 31 0 0 0 24 12a31 31 0 0 0-.5-5.8z" fill="#FF0000"/><path d="M9.5 15.6V8.4L15.8 12l-6.3 3.6z" fill="#fff"/></svg>
+                    <div class="card-text">
+                        <h3>MeduzaGrief</h3>
+                        <p>YouTube</p>
+                    </div>
+                    <svg class="card-icon" viewBox="0 0 24 24"><path d="M23.5 6.2a3 3 0 0 0-2.1-2.1C19.5 3.5 12 3.5 12 3.5s-7.5 0-9.4.6A3 3 0 0 0 .5 6.2 31 31 0 0 0 0 12a31 31 0 0 0 .5 5.8 3 3 0 0 0 2.1 2.1c1.9.6 9.4.6 9.4.6s7.5 0 9.4-.6a3 3 0 0 0 2.1-2.1A31 31 0 0 0 24 12a31 31 0 0 0-.5-5.8z" fill="#FF0000"/><path d="M9.5 15.6V8.4L15.8 12l-6.3 3.6z" fill="#fff"/></svg>
+                    <div class="card-arrow">→</div>
                 </div>
             </a>
 
             <a href="https://t.me/meduzagrief" target="_blank" class="card">
                 <div class="card-inner">
                     <img src="https://unavatar.io/telegram/meduzagrief" class="avatar" alt="Avatar" onerror="this.style.background='#222'">
-                    <h3>ТУТ МЕДУЗА 🪼</h3>
-                    <p>Telegram</p>
-                    <svg class="logo-svg" viewBox="0 0 24 24"><circle cx="12" cy="12" r="12" fill="#0088cc"/><path d="M17.6 7.2l-2 9.4c-.1.7-.6.9-1.2.6l-3.3-2.4-1.6 1.5c-.2.2-.3.3-.6.3l.2-3.3 6-5.4c.3-.2 0-.3-.4-.1l-7.4 4.7-3.2-1c-.7-.2-.7-.7.1-1l12.5-4.8c.6-.2 1.1.1.9.9z" fill="#fff"/></svg>
+                    <div class="card-text">
+                        <h3>ТУТ МЕДУЗА 🪼</h3>
+                        <p>Telegram</p>
+                    </div>
+                    <svg class="card-icon" viewBox="0 0 24 24"><circle cx="12" cy="12" r="12" fill="#0088cc"/><path d="M17.6 7.2l-2 9.4c-.1.7-.6.9-1.2.6l-3.3-2.4-1.6 1.5c-.2.2-.3.3-.6.3l.2-3.3 6-5.4c.3-.2 0-.3-.4-.1l-7.4 4.7-3.2-1c-.7-.2-.7-.7.1-1l12.5-4.8c.6-.2 1.1.1.9.9z" fill="#fff"/></svg>
+                    <div class="card-arrow">→</div>
                 </div>
             </a>
 
             <a href="https://www.twitch.tv/medy3aoffc" target="_blank" class="card">
                 <div class="card-inner">
                     <img src="https://unavatar.io/twitch/medy3aoffc" class="avatar" alt="Avatar" onerror="this.style.background='#222'">
-                    <h3>medy3aoffc</h3>
-                    <p>Twitch</p>
-                    <svg class="logo-svg" viewBox="0 0 24 24"><path d="M4 2L2 5v15h5v3l3-3h5l6-6V2H4zm16 13l-3 3h-5l-3 3v-3H5V4h15v11z" fill="#9146FF"/><path d="M11 7h2v6h-2z" fill="#fff"/><path d="M16 7h2v6h-2z" fill="#fff"/></svg>
+                    <div class="card-text">
+                        <h3>medy3aoffc</h3>
+                        <p>Twitch</p>
+                    </div>
+                    <svg class="card-icon" viewBox="0 0 24 24"><path d="M4 2L2 5v15h5v3l3-3h5l6-6V2H4zm16 13l-3 3h-5l-3 3v-3H5V4h15v11z" fill="#9146FF"/><path d="M11 7h2v6h-2z" fill="#fff"/><path d="M16 7h2v6h-2z" fill="#fff"/></svg>
+                    <div class="card-arrow">→</div>
                 </div>
             </a>
 
             <a href="https://vk.ru/id873786966" target="_blank" class="card">
                 <div class="card-inner">
-                    <img src="https://media.discordapp.net/attachments/1499840717235687527/1554519652426846278/1nirT8__NRlMJCkPiAgRWHAgJ81yPv-5vycozMGJ86KeWsy7MyZThZzANEsRmXY11oWc3P0o2TghAITa2vBF7XgP.jpg?ex=6abd2ebe&is=6abbdd3e&hm=d646df4cfa0bb7395ac1f86e1727497cee3a55ffdf3c9d8077e168dbe56d552f&=&format=webp&width=865&height=1024" class="avatar" alt="Avatar">
-                    <h3>Никита Белин</h3>
-                    <p>ВКонтакте</p>
-                    <svg class="logo-svg" viewBox="0 0 24 24"><rect width="24" height="24" rx="5" fill="#0077FF"/><path d="M13.2 17.8c-5.8 0-9.1-4-9.2-10.6h2.9c.1 4.9 2.3 7 4 7.4V7.2h2.7v4.4c1.7-.2 3.5-2.2 4.1-4.4h2.7c-.5 2.7-2.4 4.7-3.8 5.5 1.4.7 3.5 2.5 4.3 5.1h-3c-.6-1.9-2.1-3.4-4.3-3.6v3.6h-.4z" fill="#fff"/></svg>
+                    <img src="https://i.ibb.co/HDxwvSm9/e-HNXEs89-Jz2n-F3-Chn-Ok-Kxd-Fhd-M80m-T7v-Ag-JZ72uzx54g-YPpphw40-Lz-Efm7-PO3-FX6bn4l-GTa-0-ISQ0hfo5s-Jo-Tw.jpg" class="avatar" alt="Avatar">
+                    <div class="card-text">
+                        <h3>Никита Белин</h3>
+                        <p>ВКонтакте</p>
+                    </div>
+                    <svg class="card-icon" viewBox="0 0 24 24"><rect width="24" height="24" rx="5" fill="#0077FF"/><path d="M13.2 17.8c-5.8 0-9.1-4-9.2-10.6h2.9c.1 4.9 2.3 7 4 7.4V7.2h2.7v4.4c1.7-.2 3.5-2.2 4.1-4.4h2.7c-.5 2.7-2.4 4.7-3.8 5.5 1.4.7 3.5 2.5 4.3 5.1h-3c-.6-1.9-2.1-3.4-4.3-3.6v3.6h-.4z" fill="#fff"/></svg>
+                    <div class="card-arrow">→</div>
                 </div>
             </a>
 
             <a href="https://steamcommunity.com/profiles/76561199509007013/" target="_blank" class="card">
                 <div class="card-inner">
-                    <img src="https://media.discordapp.net/attachments/1499840717235687527/1554519652766326815/7e2b01b4a6d4d0e528e827d3e2b7d09ea413b9b6_full.jpg?ex=6abd2ebe&is=6abbdd3e&hm=605669d3777047cbb5e95d7007ba62c73346801eab31458c7d63f70022606390&=&format=webp" class="avatar" alt="Avatar">
-                    <h3>медуза</h3>
-                    <p>Steam профиль</p>
-                    <svg class="logo-svg" viewBox="0 0 24 24"><circle cx="12" cy="12" r="12" fill="#171a21"/><path d="M12 2a10 10 0 0 0-9.9 8.6l5.3 2.2a2.8 2.8 0 0 1 1.5-.4h.2l2.4-3.5v-.1a3.7 3.7 0 1 1 3.7 3.7h-.1l-3.4 2.4v.2a2.8 2.8 0 0 1-5.6.4L2 13.8A10 10 0 1 0 12 2zm-3.3 13.3l-1.2-.5a2.1 2.1 0 0 0 3.7-1.3 2.1 2.1 0 0 0-2.1-2.1c-.2 0-.3 0-.5.1l1.2.5a1.5 1.5 0 1 1-1.1 2.8zm8-2.8a2.5 2.5 0 1 0 0-5 2.5 2.5 0 0 0 0 5zm0-4.3a1.8 1.8 0 1 1 0 3.6 1.8 1.8 0 0 1 0-3.6z" fill="#fff"/></svg>
+                    <img src="https://i.ibb.co/cSbVS0Yn/2ac1e8cd96f2bd345237db17ed58a1849a5bbe9f-full.jpg" class="avatar" alt="Avatar">
+                    <div class="card-text">
+                        <h3>медуза</h3>
+                        <p>Steam профиль</p>
+                    </div>
+                    <svg class="card-icon" viewBox="0 0 24 24"><circle cx="12" cy="12" r="12" fill="#171a21"/><path d="M12 2a10 10 0 0 0-9.9 8.6l5.3 2.2a2.8 2.8 0 0 1 1.5-.4h.2l2.4-3.5v-.1a3.7 3.7 0 1 1 3.7 3.7h-.1l-3.4 2.4v.2a2.8 2.8 0 0 1-5.6.4L2 13.8A10 10 0 1 0 12 2zm-3.3 13.3l-1.2-.5a2.1 2.1 0 0 0 3.7-1.3 2.1 2.1 0 0 0-2.1-2.1c-.2 0-.3 0-.5.1l1.2.5a1.5 1.5 0 1 1-1.1 2.8zm8-2.8a2.5 2.5 0 1 0 0-5 2.5 2.5 0 0 0 0 5zm0-4.3a1.8 1.8 0 1 1 0 3.6 1.8 1.8 0 0 1 0-3.6z" fill="#fff"/></svg>
+                    <div class="card-arrow">→</div>
                 </div>
             </a>
 
             <a href="https://t.me/meduzagrief_bot" target="_blank" class="card">
                 <div class="card-inner">
                     <div class="avatar-placeholder">P</div>
-                    <h3>predlowkamdz</h3>
-                    <p>Telegram → Предложка</p>
-                    <svg class="logo-svg" viewBox="0 0 24 24"><circle cx="12" cy="12" r="12" fill="#0088cc"/><path d="M17.6 7.2l-2 9.4c-.1.7-.6.9-1.2.6l-3.3-2.4-1.6 1.5c-.2.2-.3.3-.6.3l.2-3.3 6-5.4c.3-.2 0-.3-.4-.1l-7.4 4.7-3.2-1c-.7-.2-.7-.7.1-1l12.5-4.8c.6-.2 1.1.1.9.9z" fill="#fff"/></svg>
+                    <div class="card-text">
+                        <h3>predlowkamdz</h3>
+                        <p>Telegram → Предложка</p>
+                    </div>
+                    <svg class="card-icon" viewBox="0 0 24 24"><circle cx="12" cy="12" r="12" fill="#0088cc"/><path d="M17.6 7.2l-2 9.4c-.1.7-.6.9-1.2.6l-3.3-2.4-1.6 1.5c-.2.2-.3.3-.6.3l.2-3.3 6-5.4c.3-.2 0-.3-.4-.1l-7.4 4.7-3.2-1c-.7-.2-.7-.7.1-1l12.5-4.8c.6-.2 1.1.1.9.9z" fill="#fff"/></svg>
+                    <div class="card-arrow">→</div>
                 </div>
             </a>
         </div>
@@ -640,14 +938,27 @@ nav a:hover, nav a.active { color: #fff; }
 
     <!-- ===== СЕКЦИЯ ИНФО ===== -->
     <div class="section hidden" id="info">
-        <h2 class="title">Информация</h2>
+        <div class="section-header">
+            <h2>Информация</h2>
+            <div class="line"></div>
+            <div class="badge">Обо мне</div>
+        </div>
         <div class="info">
-            <img src="https://unavatar.io/youtube/@immeduza" alt="Avatar" onerror="this.style.background='#222'">
-            <div class="date">Информация была обновлена 29.09</div>
-            <div class="info-text">
-                <strong>Всем хай! Я медуза :/ Вот инфа обо мне:</strong>
-                <p>Меня зовут Никита, псевдоним на ютубе MeduzaGrief, а так просто медуза, я пацан, мне сейчас 14 лет, занимаюсь всем чем хочу в интернете, в основном делаю видосы на свой ютуб канал.</p>
-                <p>Подписывайся на мои соц. сети, если хочешь следить за мной. Спасибо ❤️‍🔥</p>
+            <div class="info-card">
+                <div class="info-top">
+                    <div class="info-avatar-wrap">
+                        <img src="https://unavatar.io/youtube/@immeduza" alt="Avatar" onerror="this.style.background='#222'">
+                    </div>
+                    <div class="info-top-text">
+                        <h3>🪼 MeduzaGrief</h3>
+                        <div class="date">Обновлено 29.09</div>
+                    </div>
+                </div>
+                <div class="info-body">
+                    <p><strong>Всем хай! Я медуза :/ Вот инфа обо мне:</strong></p>
+                    <p>Меня зовут Никита, псевдоним на ютубе MeduzaGrief, а так просто медуза, я пацан, мне сейчас 14 лет, занимаюсь всем чем хочу в интернете, в основном делаю видосы на свой ютуб канал.</p>
+                    <p>Подписывайся на мои соц. сети, если хочешь следить за мной. Спасибо ❤️‍🔥</p>
+                </div>
             </div>
         </div>
     </div>
@@ -679,6 +990,26 @@ nav a:hover, nav a.active { color: #fff; }
 <div id="toast">Ссылка открыта в новом окне или приложении</div>
 
 <script>
+/* ===== ПЛАВАЮЩИЕ ЧАСТИЦЫ ===== */
+function createParticles() {
+    const count = 18;
+    for (let i = 0; i < count; i++) {
+        const p = document.createElement('div');
+        p.className = 'particle';
+        p.style.left = Math.random() * 100 + '%';
+        p.style.top = Math.random() * 100 + '%';
+        p.style.setProperty('--dx', (Math.random() - 0.5) * 200 + 'px');
+        p.style.setProperty('--dy', (Math.random() - 0.5) * 200 + 'px');
+        p.style.animationDuration = (8 + Math.random() * 12) + 's';
+        p.style.animationDelay = (-Math.random() * 20) + 's';
+        p.style.opacity = 0.2 + Math.random() * 0.4;
+        document.body.appendChild(p);
+    }
+}
+if (!window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+    createParticles();
+}
+
 /* ===== ПЕРЕКЛЮЧЕНИЕ СЕКЦИЙ ===== */
 const secLinks = document.getElementById('links');
 const secInfo  = document.getElementById('info');
@@ -693,6 +1024,18 @@ function show(id) {
     navLinks.classList.toggle('active', id === 'links');
     navInfo.classList.toggle('active', id === 'info');
     currentSection = id;
+
+    // Перезапуск анимаций при переходе
+    if (id === 'links') {
+        setTimeout(() => {
+            document.querySelectorAll('#links .card, #links .minecraft-btn').forEach((item, i) => {
+                item.style.transitionDelay = (i * 60) + 'ms';
+                item.classList.remove('show');
+                void item.offsetWidth;
+                item.classList.add('show');
+            });
+        }, 50);
+    }
 }
 
 /* ===== ПОЯВЛЕНИЕ КАРТОЧЕК ===== */
@@ -701,7 +1044,7 @@ function revealCards() {
     if (!section) return;
     const items = section.querySelectorAll('.card, .minecraft-btn');
     items.forEach((item, i) => {
-        setTimeout(() => item.classList.add('show'), 80 + i * 100);
+        setTimeout(() => item.classList.add('show'), 100 + i * 90);
     });
     setTimeout(() => {
         items.forEach(item => item.classList.add('show'));
@@ -714,10 +1057,7 @@ if (document.readyState === 'loading') {
     revealCards();
 }
 
-/* ===== YOUTUBE: ПОСЛЕДНЕЕ ВИДЕО ЧЕРЕЗ RSS + rss2json =====
-   channel_id: UCUBuQbrFSTHZdvZUeIlLRXA
-   rss2json — бесплатный публичный API, конвертирует RSS в JSON без ключа.
-*/
+/* ===== YOUTUBE: ПОСЛЕДНЕЕ ВИДЕО ЧЕРЕЗ RSS + rss2json ===== */
 async function loadLatestYouTubeVideo() {
     const container = document.getElementById('youtube-container');
     const metaTitle = document.querySelector('#youtube-meta .video-title');
@@ -736,14 +1076,11 @@ async function loadLatestYouTubeVideo() {
         }
 
         const latest = data.items[0];
-
-        // Достаём videoId из link: https://www.youtube.com/watch?v=XXXX
         const videoIdMatch = latest.link.match(/v=([^&]+)/);
         const videoId = videoIdMatch ? videoIdMatch[1] : null;
 
         if (!videoId) throw new Error('Не удалось получить ID видео');
 
-        // Форматируем дату
         let dateStr = '';
         if (latest.pubDate) {
             const d = new Date(latest.pubDate);
@@ -763,7 +1100,6 @@ async function loadLatestYouTubeVideo() {
 
     } catch (e) {
         console.warn('YouTube загрузка не удалась:', e);
-        // Fallback: показываем заглушку со ссылкой на канал
         container.innerHTML = `
             <div style="color:#888; display:flex; flex-direction:column; align-items:center; justify-content:center; height:100%; gap:12px; padding:20px; text-align:center;">
                 <span style="font-size:2.5rem; opacity:0.3;">▶</span>
